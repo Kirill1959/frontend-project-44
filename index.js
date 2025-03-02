@@ -1,5 +1,5 @@
 // @ts-check
 
-import cli from './src/cli.js'
+import cli from './src/cli.js';
 
-export default cli
+export default cli;
