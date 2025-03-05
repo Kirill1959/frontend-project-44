@@ -1,45 +1,37 @@
 #!/usr/bin/env node
 import readlineSync from 'readline-sync';
 
-const isEven = (num) => {
-  if (num % 2 === 0) {
-    return 'yes';
-  }
-  return 'no';
+const description = 'Answer "yes" if the number is even, otherwise answer "no".';
+
+const isEven = (num) => (num % 2 === 0 ? 'yes' : 'no');
+
+const generateRound = () => {
+  const randomNumber = Math.floor(Math.random() * 10);
+  const question = `${randomNumber}`;
+  const correctAnswer = isEven(randomNumber);
+  return [question, correctAnswer];
 };
 
-const game = () => {
-  const randomNumber = Math.floor(Math.random() * 10); // Fixed random number generation
-
-  console.log('Answer "yes" if the number is even, otherwise answer "no".');
-  console.log(`Question: ${randomNumber}`);
-  const answer = readlineSync.question('Your answer: ');
-  const correct = isEven(randomNumber);
-
-  if (correct === answer) {
-    console.log('Correct!');
-    return true; 
-  } else {
-    console.log(
-      `'${answer}' is wrong answer ;(. Correct answer was '${correct}'. Let's try again,!`
-    );
-    return false;
-  }
-};
-
-
-const playGame = () => {
+const runGame = (gameDescription, gameRound) => {
   console.log('Welcome to the Brain Games!');
+  console.log(gameDescription);
+  console.log('');
+
   const name = readlineSync.question('May I have your name? ');
   console.log(`Hello, ${name}!`);
+  console.log('');
 
-  let correctAnswersCount = 0;
   const roundsCount = 3;
+  for (let i = 0; i < roundsCount; i += 1) {
+    const [question, correctAnswer] = gameRound();
 
-  while (correctAnswersCount < roundsCount) {
-    if (game()) {
-      correctAnswersCount++;
+    console.log(`Question: ${question}`);
+    const userAnswer = readlineSync.question('Your answer: ');
+
+    if (userAnswer.toString() === correctAnswer.toString()) {
+      console.log('Correct!');
     } else {
+      console.log(`'${userAnswer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`);
       console.log(`Let's try again, ${name}!`);
       return;
     }
@@ -48,4 +40,6 @@ const playGame = () => {
   console.log(`Congratulations, ${name}!`);
 };
 
-playGame();
+const startGame = () => runGame(description, generateRound);
+
+startGame();
