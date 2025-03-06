@@ -27,7 +27,6 @@ const game = () => {
   const name = welcome();
   console.log('What is the result of the expression?');
 
-  // Первые два раунда случайные (+ или -)
   const operations = ['+', '-'];
   for (let i = 0; i < 2; i += 1) {
     const operation = operations[randomNumber(0, operations.length - 1)];
@@ -42,8 +41,6 @@ const game = () => {
     }
     console.log('Correct!');
   }
-
-  // Последний раунд - умножение
   const [questionMult, correctAnswerMult] = generateRound('*');
   console.log(`Question: ${questionMult}`);
   const answerMult = readlineSync.question('Your answer: ');
