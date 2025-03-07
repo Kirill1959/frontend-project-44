@@ -15,7 +15,7 @@ const isPrime = (num) => {
 };
 
 const generateRound = () => {
-  const num = randomNumber(2, 30); // Выберите диапазон чисел
+  const num = randomNumber(2, 30); 
   const question = `${num}`;
   const correctAnswer = isPrime(num) ? 'yes' : 'no';
   return [question, correctAnswer];
