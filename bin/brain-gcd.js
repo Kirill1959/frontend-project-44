@@ -2,31 +2,32 @@
 import readlineSync from 'readline-sync';
 import cli from '../src/cli.js';
 
-const gameDescription = 'Find the greatest common divisor of given numbers.';
+const DESCRIPTION = 'Find the greatest common divisor of given numbers.';
+const ROUNDS_COUNT = 3;
+const MIN_NUMBER = 1;
+const MAX_NUMBER = 100;
 
-const gcd = (a, b) => {
-  if (!b) {
-    return String(a);
-  }
-  return gcd(b, a % b);
+const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
+
+const generateRound = () => {
+  const num1 = cli.randomNumber(MIN_NUMBER, MAX_NUMBER);
+  const num2 = cli.randomNumber(MIN_NUMBER, MAX_NUMBER);
+  const question = `${num1} ${num2}`;
+  const correctAnswer = String(gcd(num1, num2));
+  return [question, correctAnswer];
 };
 
-const brainGCD = () => {
+const runGame = () => {
   const name = cli.welcome();
-  console.log(gameDescription);
+  console.log(DESCRIPTION);
 
-  const roundsCount = 3;
-  for (let i = 0; i < roundsCount; i += 1) {
-    const num1 = cli.randomNumber(1, 100);
-    const num2 = cli.randomNumber(1, 100);
-    const question = `${num1} ${num2}`;
-    const correctAnswer = gcd(num1, num2);
-
+  for (let i = 0; i < ROUNDS_COUNT; i += 1) {
+    const [question, correctAnswer] = generateRound();
     console.log(`Question: ${question}`);
-    const answer = readlineSync.question('Your answer: ');
+    const userAnswer = readlineSync.question('Your answer: ');
 
-    if (answer !== correctAnswer) {
-      console.log(`'${answer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`);
+    if (userAnswer !== correctAnswer) {
+      console.log(`'${userAnswer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`);
       console.log(`Let's try again, ${name}!`);
       return;
     }
@@ -37,4 +38,4 @@ const brainGCD = () => {
   console.log(`Congratulations, ${name}!`);
 };
 
-brainGCD();
+runGame();

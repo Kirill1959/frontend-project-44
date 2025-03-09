@@ -2,8 +2,14 @@
 import readlineSync from 'readline-sync';
 import cli from '../src/cli.js';
 
-const gameDescription = 'What number is missing in the progression?';
-
+const DESCRIPTION = 'What number is missing in the progression?';
+const ROUNDS_COUNT = 3;
+const MIN_START = 1;
+const MAX_START = 20;
+const MIN_STEP = 2;
+const MAX_STEP = 5;
+const MIN_LENGTH = 5;
+const MAX_LENGTH = 10;
 const generateProgression = (start, step, length) => {
   const progression = [];
   for (let i = 0; i < length; i += 1) {
@@ -12,28 +18,32 @@ const generateProgression = (start, step, length) => {
   return progression;
 };
 
-const brainProgression = () => {
+const generateRound = () => {
+  const start = cli.randomNumber(MIN_START, MAX_START);
+  const step = cli.randomNumber(MIN_STEP, MAX_STEP);
+  const length = cli.randomNumber(MIN_LENGTH, MAX_LENGTH);
+  const progression = generateProgression(start, step, length);
+  const hiddenIndex = cli.randomNumber(0, length - 1);
+  const correctAnswer = String(progression[hiddenIndex]);
+
+  // Создаем прогрессию с пропущенным числом
+  const progressionWithHidden = progression.map((num, index) => (index === hiddenIndex ? '..' : num));
+  const question = progressionWithHidden.join(' ');
+
+  return [question, correctAnswer];
+};
+
+const runGame = () => {
   const name = cli.welcome();
-  console.log(gameDescription);
+  console.log(DESCRIPTION);
 
-  const roundsCount = 3;
-  for (let i = 0; i < roundsCount; i += 1) {
-    const start = cli.randomNumber(1, 20);
-    const step = cli.randomNumber(2, 5);
-    const length = cli.randomNumber(5, 10);
-    const progression = generateProgression(start, step, length);
-    const hiddenIndex = cli.randomNumber(0, length - 1);
-    const correctAnswer = String(progression[hiddenIndex]);
-
-    const progressionWithHidden = [...progression];
-    progressionWithHidden[hiddenIndex] = '..';
-    const question = progressionWithHidden.join(' ');
-
+  for (let i = 0; i < ROUNDS_COUNT; i += 1) {
+    const [question, correctAnswer] = generateRound();
     console.log(`Question: ${question}`);
-    const answer = readlineSync.question('Your answer: ');
+    const userAnswer = readlineSync.question('Your answer: ');
 
-    if (answer !== correctAnswer) {
-      console.log(`'${answer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`);
+    if (userAnswer !== correctAnswer) {
+      console.log(`'${userAnswer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`);
       console.log(`Let's try again, ${name}!`);
       return;
     }
@@ -44,4 +54,4 @@ const brainProgression = () => {
   console.log(`Congratulations, ${name}!`);
 };
 
-brainProgression();
+runGame();

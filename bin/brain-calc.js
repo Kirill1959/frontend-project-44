@@ -2,6 +2,12 @@
 import readlineSync from 'readline-sync';
 import cli from '../src/cli.js';
 
+const DESCRIPTION = 'What is the result of the expression?';
+const ROUNDS_COUNT = 3;
+const OPERATIONS = ['+', '-', '*'];
+const MIN_NUMBER = 1;
+const MAX_NUMBER = 10;
+
 const calculate = (num1, num2, operation) => {
   switch (operation) {
     case '+':
@@ -15,46 +21,34 @@ const calculate = (num1, num2, operation) => {
   }
 };
 
-const generateRound = (operation) => {
-  const num1 = cli.randomNumber(1, 10);
-  const num2 = cli.randomNumber(1, 10);
+const generateRound = () => {
+  const num1 = cli.randomNumber(MIN_NUMBER, MAX_NUMBER);
+  const num2 = cli.randomNumber(MIN_NUMBER, MAX_NUMBER);
+  const operation = OPERATIONS[cli.randomNumber(0, OPERATIONS.length - 1)];
   const question = `${num1} ${operation} ${num2}`;
   const correctAnswer = calculate(num1, num2, operation);
   return [question, correctAnswer];
 };
 
-const game = () => {
+const runGame = () => {
   const name = cli.welcome();
-  console.log('What is the result of the expression?');
+  console.log(DESCRIPTION);
 
-  const operations = ['+', '-'];
-  for (let i = 0; i < 2; i += 1) {
-    const operation = operations[cli.randomNumber(0, operations.length - 1)];
-    const [question, correctAnswer] = generateRound(operation);
+  for (let i = 0; i < ROUNDS_COUNT; i += 1) {
+    const [question, correctAnswer] = generateRound();
     console.log(`Question: ${question}`);
-    const answer = readlineSync.question('Your answer: ');
+    const userAnswer = readlineSync.question('Your answer: ');
 
-    if (answer !== correctAnswer) {
-      const wrongAnswerMessage = `'${answer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`;
-      console.log(wrongAnswerMessage);
+    if (userAnswer !== correctAnswer) {
+      console.log(`'${userAnswer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`);
       console.log(`Let's try again, ${name}!`);
       return;
     }
+
     console.log('Correct!');
   }
-  const [questionMult, correctAnswerMult] = generateRound('*');
-  console.log(`Question: ${questionMult}`);
-  const answerMult = readlineSync.question('Your answer: ');
-
-  if (answerMult !== correctAnswerMult) {
-    const wrongAnswerMessage = `'${answerMult}' is wrong answer ;(. Correct answer was '${correctAnswerMult}'.`;
-    console.log(wrongAnswerMessage);
-    console.log(`Let's try again, ${name}!`);
-    return;
-  }
-  console.log('Correct!');
 
   console.log(`Congratulations, ${name}!`);
 };
 
-game();
+runGame();
