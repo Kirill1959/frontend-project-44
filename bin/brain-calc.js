@@ -1,9 +1,8 @@
 #!/usr/bin/env node
-import readlineSync from 'readline-sync';
+import runGame from '../src/index.js';
 import cli from '../src/cli.js';
 
 const DESCRIPTION = 'What is the result of the expression?';
-const ROUNDS_COUNT = 3;
 const OPERATIONS = ['+', '-', '*'];
 const MIN_NUMBER = 1;
 const MAX_NUMBER = 10;
@@ -30,25 +29,4 @@ const generateRound = () => {
   return [question, correctAnswer];
 };
 
-const runGame = () => {
-  const name = cli.welcome();
-  console.log(DESCRIPTION);
-
-  for (let i = 0; i < ROUNDS_COUNT; i += 1) {
-    const [question, correctAnswer] = generateRound();
-    console.log(`Question: ${question}`);
-    const userAnswer = readlineSync.question('Your answer: ');
-
-    if (userAnswer !== correctAnswer) {
-      console.log(`'${userAnswer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`);
-      console.log(`Let's try again, ${name}!`);
-      return;
-    }
-
-    console.log('Correct!');
-  }
-
-  console.log(`Congratulations, ${name}!`);
-};
-
-runGame();
+runGame(DESCRIPTION, generateRound);
