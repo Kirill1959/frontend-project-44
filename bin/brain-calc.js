@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import readlineSync from 'readline-sync';
-import { welcome, randomNumber } from '../src/cli.js';
+import cli from '../src/cli.js';
 
 const calculate = (num1, num2, operation) => {
   switch (operation) {
@@ -16,26 +16,27 @@ const calculate = (num1, num2, operation) => {
 };
 
 const generateRound = (operation) => {
-  const num1 = randomNumber(1, 10);
-  const num2 = randomNumber(1, 10);
+  const num1 = cli.randomNumber(1, 10);
+  const num2 = cli.randomNumber(1, 10);
   const question = `${num1} ${operation} ${num2}`;
   const correctAnswer = calculate(num1, num2, operation);
   return [question, correctAnswer];
 };
 
 const game = () => {
-  const name = welcome();
+  const name = cli.welcome();
   console.log('What is the result of the expression?');
 
   const operations = ['+', '-'];
   for (let i = 0; i < 2; i += 1) {
-    const operation = operations[randomNumber(0, operations.length - 1)];
+    const operation = operations[cli.randomNumber(0, operations.length - 1)];
     const [question, correctAnswer] = generateRound(operation);
     console.log(`Question: ${question}`);
     const answer = readlineSync.question('Your answer: ');
 
     if (answer !== correctAnswer) {
-      console.log(`'${answer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`);
+      const wrongAnswerMessage = `'${answer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`;
+      console.log(wrongAnswerMessage);
       console.log(`Let's try again, ${name}!`);
       return;
     }
@@ -46,7 +47,8 @@ const game = () => {
   const answerMult = readlineSync.question('Your answer: ');
 
   if (answerMult !== correctAnswerMult) {
-    console.log(`'${answerMult}' is wrong answer ;(. Correct answer was '${correctAnswerMult}'.`);
+    const wrongAnswerMessage = `'${answerMult}' is wrong answer ;(. Correct answer was '${correctAnswerMult}'.`;
+    console.log(wrongAnswerMessage);
     console.log(`Let's try again, ${name}!`);
     return;
   }

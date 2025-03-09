@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import readlineSync from 'readline-sync';
-import { welcome, randomNumber } from '../src/cli.js';
+import cli from '../src/cli.js';
 
 const isPrime = (num) => {
   if (num <= 1) {
@@ -15,14 +15,14 @@ const isPrime = (num) => {
 };
 
 const generateRound = () => {
-  const num = randomNumber(2, 30); 
+  const num = cli.randomNumber(2, 30);
   const question = `${num}`;
   const correctAnswer = isPrime(num) ? 'yes' : 'no';
   return [question, correctAnswer];
 };
 
 const game = () => {
-  const name = welcome();
+  const name = cli.welcome();
   console.log('Answer "yes" if given number is prime. Otherwise answer "no".');
 
   for (let i = 0; i < 3; i += 1) {

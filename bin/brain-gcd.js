@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import readlineSync from 'readline-sync';
-import { welcome, randomNumber } from '../src/cli.js';
+import cli from '../src/cli.js';
 
 const gameDescription = 'Find the greatest common divisor of given numbers.';
 
@@ -12,13 +12,13 @@ const gcd = (a, b) => {
 };
 
 const brainGCD = () => {
-  const name = welcome();
+  const name = cli.welcome();
   console.log(gameDescription);
 
   const roundsCount = 3;
   for (let i = 0; i < roundsCount; i += 1) {
-    const num1 = randomNumber(1, 100);
-    const num2 = randomNumber(1, 100);
+    const num1 = cli.randomNumber(1, 100);
+    const num2 = cli.randomNumber(1, 100);
     const question = `${num1} ${num2}`;
     const correctAnswer = gcd(num1, num2);
 

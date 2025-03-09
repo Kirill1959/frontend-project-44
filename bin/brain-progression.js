@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 import readlineSync from 'readline-sync';
+import cli from '../src/cli.js';
 
 const gameDescription = 'What number is missing in the progression?';
-
-const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 const generateProgression = (start, step, length) => {
   const progression = [];
@@ -14,18 +13,16 @@ const generateProgression = (start, step, length) => {
 };
 
 const brainProgression = () => {
-  console.log('Welcome to the Brain Games!');
-  const name = readlineSync.question('May I have your name? ');
-  console.log(`Hello, ${name}!`);
+  const name = cli.welcome();
   console.log(gameDescription);
 
   const roundsCount = 3;
   for (let i = 0; i < roundsCount; i += 1) {
-    const start = getRandomNumber(1, 20);
-    const step = getRandomNumber(2, 5);
-    const length = getRandomNumber(5, 10);
+    const start = cli.randomNumber(1, 20);
+    const step = cli.randomNumber(2, 5);
+    const length = cli.randomNumber(5, 10);
     const progression = generateProgression(start, step, length);
-    const hiddenIndex = getRandomNumber(0, length - 1);
+    const hiddenIndex = cli.randomNumber(0, length - 1);
     const correctAnswer = String(progression[hiddenIndex]);
 
     const progressionWithHidden = [...progression];

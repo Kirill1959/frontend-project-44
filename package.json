@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "make-executable": "chmod +x bin/brain-even.js bin/brain-games.js bin/brain-gcd.js bin/brain-progression.js"
+    "make-executable": "chmod +x bin/brain-even.js bin/brain-games.js bin/brain-gcd.js bin/brain-progression.js bin/brain-prime.js"
   },
   "author": "",
   "license": "ISC",
