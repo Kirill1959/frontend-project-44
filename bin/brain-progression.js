@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import runGame from '../src/index.js';
+import { runGame } from '../src/index.js';
 import cli from '../src/cli.js';
 
 const DESCRIPTION = 'What number is missing in the progression?';
@@ -26,6 +26,7 @@ const generateRound = () => {
   const hiddenIndex = cli.randomNumber(0, length - 1);
   const correctAnswer = String(progression[hiddenIndex]);
 
+  // Создаем прогрессию с пропущенным числом
   const progressionWithHidden = progression.map((num, index) => (index === hiddenIndex ? '..' : num));
   const question = progressionWithHidden.join(' ');
 

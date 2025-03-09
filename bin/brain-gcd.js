@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import runGame from '../src/index.js'; // Изменено на src/index.js
+import { runGame } from '../src/index.js';
 import cli from '../src/cli.js';
 
 const DESCRIPTION = 'Find the greatest common divisor of given numbers.';

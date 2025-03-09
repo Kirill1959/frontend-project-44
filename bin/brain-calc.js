@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import runGame from '../src/index.js';
+import { runGame } from '../src/index.js';
 import cli from '../src/cli.js';
 
 const DESCRIPTION = 'What is the result of the expression?';

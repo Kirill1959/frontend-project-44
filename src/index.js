@@ -23,4 +23,11 @@ const runGame = (description, generateRound) => {
   console.log(`Congratulations, ${name}!`);
 };
 
-export default runGame;
+const generateYesNoRound = (getQuestion, isCorrectAnswer, min, max) => {
+  const num = cli.randomNumber(min, max);
+  const question = `${getQuestion(num)}`;
+  const correctAnswer = isCorrectAnswer(num) ? 'yes' : 'no';
+  return [question, correctAnswer];
+};
+
+export { runGame, generateYesNoRound };

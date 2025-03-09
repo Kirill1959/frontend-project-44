@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-import runGame from '../src/index.js';
-import cli from '../src/cli.js';
+import { runGame, generateYesNoRound } from '../src/index.js';
 
 const DESCRIPTION = 'Answer "yes" if given number is prime. Otherwise answer "no".';
 const MIN_NUMBER = 2;
@@ -14,11 +13,7 @@ const isPrime = (num) => {
   return true;
 };
 
-const generateRound = () => {
-  const num = cli.randomNumber(MIN_NUMBER, MAX_NUMBER);
-  const question = `${num}`;
-  const correctAnswer = isPrime(num) ? 'yes' : 'no';
-  return [question, correctAnswer];
-};
+const getQuestion = (num) => num;
+const generateRound = () => generateYesNoRound(getQuestion, isPrime, MIN_NUMBER, MAX_NUMBER);
 
 runGame(DESCRIPTION, generateRound);
